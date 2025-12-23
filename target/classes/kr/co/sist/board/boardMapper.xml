@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.sist.board">
+ 
+ <!--board 테이블에 추가 작업  -->
+ <insert id="insertBoard" parameterType="kr.co.sist.board.BoardDTO">
+insert into board(num, title, content, ip, id) values
+(seq_board.nextval,#{title},#{content},#{ip},#{id} )
+ 
+ </insert>
+</mapper>
+

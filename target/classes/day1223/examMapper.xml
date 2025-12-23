@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="day1223">
+<!--외부값 없이 insert 하기 : parameterType 속성 정의 안함
+int cnt = ss.insert("아이디");-->
+ <insert id="nonParameter">
+ insert into boar(num, input_date)
+ values (scott.seq_board.nextval, sysdate+1) 
+ </insert>
+ 
+ <!--외부값을 사용한 INSERT :  parameterType 속성 정의
+int cnt = ss.insert("아이디", DTO 객체);-->
+ 
+ <insert id="insertDept" parameterType = "day1219.DeptDTO">
+ 	insert into cp_dept(deptno,dname,loc)
+ 	values(#{deptno},#{dname},#{loc})
+ </insert>
+ 
+ <insert id="insertDept2" parameterType = "day1219.DeptDTO">
+ 	insert into cp_dept(deptno,dname,loc)
+ 	values('${deptno}','${dname}','${loc}')
+ 	
+ </insert>
+ 
+</mapper>
+
