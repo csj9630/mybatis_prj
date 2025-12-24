@@ -4,6 +4,9 @@
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 <properties resource="properties/database.properties"/>
+<typeAliases>
+<typeAlias type="day1224.EmpDTO" alias="eDTO"/>
+</typeAliases>
   <environments default="development">
     <environment id="development">
       <transactionManager type="JDBC"/>
@@ -17,7 +20,9 @@
   </environments>
   <mappers>
     <mapper resource="day1219/dept.xml"/>
-    <mapper resource="day1223/examMapper.xml"/>
+    <mapper resource="day1223/examMapper.xml"/><!--insert 연습  -->
+    <mapper resource="day1224/examMapper2.xml"/><!--update, delete 연습  -->
+    <mapper resource="day1224/examMapper3.xml"/><!--select 및 각종 sql문 연습  -->
     <mapper resource="kr/co/sist/board/boardMapper.xml"/>
   </mappers>
 </configuration>

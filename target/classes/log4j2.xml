@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration status="trace">
 	<Properties>    	
-    	<property name="LOGS_PATH">d:/dev/mybatis/log</property>
+    	<property name="LOGS_PATH">c:/dev/mybatis/log</property>
 	</Properties>
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">

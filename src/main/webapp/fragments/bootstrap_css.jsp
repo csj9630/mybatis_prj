@@ -83,11 +83,3 @@
 	display: block !important
 }
 </style>
-<style type="text/css">
-#wrap{  margin: 0px auto; width: 1200px; height: 1000px; }	
-#header{ height: 150px;	 }	
-#container{ height: 700px;	 }	
-#footer{ height: 150px;}
-</style>
-
-	

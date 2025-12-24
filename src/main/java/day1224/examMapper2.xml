@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="day1224">
+	<!--외부값 없이 update 하기 : parameterType 속성 정의 안함 int cnt = ss.insert("아이디"); -->
+	<update id="updateNonParameter">
+		UPDATE BOARD
+		SET TITLE = '아비게일', CONTENT = '언제진입하냐', id='kim'
+		WHERE NUM = 400
+	</update>
+	<!--단일형(기본형, wrapper class)로  -->
+	<update id="updateParameter" parameterType="int">
+		UPDATE BOARD
+		SET TITLE = '아비게일', CONTENT = '언제진입하냐', id='kim'
+		WHERE NUM = #{num}
+	</update>
+	<!--복합형 DTO로 입력 받을 때  -->
+	<update id="updateCpDept" parameterType="day1219.DeptDTO">
+	  update cp_dept 
+		set dname = #{dname}, loc = #{loc}
+		where deptno  = #{deptno}
+	</update>
+	
+	<!--삭제 : 입력값 없음  -->
+	<delete id="deleteCpDept">
+		delete from cp_dept where deptno=90 
+	</delete>
+	<!--삭제 : 입력값 기본형  -->
+	<delete id="deleteCpDeptNum" parameterType="Integer">
+		delete from cp_dept where deptno=#{num} 
+	</delete>
+</mapper>
+
