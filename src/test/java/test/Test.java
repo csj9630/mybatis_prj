@@ -47,13 +47,13 @@ public class Test {
 //		assertNotNull(sDAO.subquery());
 //		assertNotNull(sDAO.union());
 //		assertNotNull(sDAO.join());
-//		assertNotNull(cdao.carMakerFromForeign());
+		//assertNotNull(cdao.carMakerFromCountry("국산"));
 		//assertNotNull(cdao.carMakerFromKorea());
 //		assertNotNull(cdao.carModelFromMaker("현대"));
 //		assertNotNull(cs.chooseCarMaker("국마"));
 //		assertNotNull(cs.chooseCarModel("현대"));
 //		assertNotNull(cdao.joinCarInfo("get"));
-		assertNotNull(cs.searchCarList("아반테"));
+			assertNotNull(cs.searchCarList("그랜저"));
 			
 		}catch(Exception e) {
 			e.printStackTrace();

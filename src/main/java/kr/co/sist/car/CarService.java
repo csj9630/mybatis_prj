@@ -3,11 +3,6 @@ package kr.co.sist.car;
 import java.util.List;
 
 import org.apache.ibatis.exceptions.PersistenceException;
-import org.apache.ibatis.session.SqlSession;
-
-import day1226.CarModelDomain;
-import day1226.SelectDAO2;
-import kr.co.sist.dao.MyBatisHandler;
 
 public class CarService {
 	// ------싱글톤 패턴----------

@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="carMapper">
 <!--국가로 제조사 조회 -->
 <select id="carMakerFromKorea"  resultType="String">
-select Maker
+select DISTINCT  Maker
 from CAR_MAKER
 where Maker in ('현대','기아','삼성','쌍용')
 </select>
 <select id="carMakerFromForeign" resultType="String">
-select Maker
+select DISTINCT Maker
 from CAR_MAKER
 where Maker not in ('현대','기아','삼성','쌍용')
 </select>
 
 <select id="carModelFromMaker" parameterType="String" resultType="String">
-	select model
+	select DISTINCT model
 	from CAR_MAKER
 	where Maker = #{maker}
 </select>

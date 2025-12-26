@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
 
-import day1226.CarModelDomain;
 
 import java.lang.IllegalArgumentException;
 
