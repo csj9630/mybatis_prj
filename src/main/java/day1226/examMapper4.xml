@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="day1226">
+<sql id="empCommon">
+select ename, sal, comm, hiredate
+from emp
+</sql>
+<!--******여러 조건에 의한 여러 컬럼이 조회*******
+부서 번호와 사원 번호를 (parameterType="aDTO") 입력받아서
+ 사원명, 연봉, 보너스, 입사일(resultType="bDTO")을 검색한다.
+ 
+ aDTO : 입력값  -> where절
+ bDTO : 조회값 -> 조회 컬럼
+  -->
+<select id="useDomain" parameterType="empDTO" resultType="empDomain">
+select ename, sal, comm, hiredate
+from emp 
+where deptno = #{deptno} and empno = #{empno}
+</select>
+
+<!--************* like ****************
+%는 PreparedStatement의 bind변수와 함꼐 사용되면 인식하지 못한다.
+동에 해당하는 우편번호, 시도, 구군,동,번지 석맥
+-->
+<resultMap type="zipDomain" id="zipResult">
+<result column="zipcode" property="zipcode"/>
+<result column="sido" property="sido"/>
+<result column="gugun" property="gugun"/>
+<result column="dong" property="dong"/>
+<result column="bunji" property="bunji"/>
+</resultMap>
+
+<select id="like" parameterType="String" resultMap="zipResult">
+select zipcode, sido, gugun, dong, bunji, seq 
+from zipcode 
+where dong like #{dong}||'%' 
+</select>
+<!-- ***************< 작다***********
+연봉을 입력받아 연봉보다 적게 받는 사원의 사원명,연봉,보너스, 입사일을 검색
+ - 방법 1 : 특수문자 사용
+`<` → `&lt;` 
+`where sal &lt; #{sql}`
+- 방법2 : CDATA section 일시적으로 xml Parser를 무효화시키는 영역전개
+`<![CDATA[ SQL문 ]]>`  : 괄호 내부를 단순 문자열로 인식
+ -->
+<select id="lessThan" parameterType="int" resultType="empDomain">
+select ename, sal, comm, hiredate
+from emp
+<![CDATA[
+where sal < #{sal}
+]]>
+</select>
+<!--******** > 크다  ********
+연봉을 입력받아 연봉보다 많이 받는 사원의 사원명,연봉,보너스, 입사일을 검색
+얘는 에러 안난다.
+-->
+<select id="greaterThan" parameterType="int" resultType="empDomain">
+<include refid="empCommon"/>
+<!-- where sal > #{sal} -->
+<!-- where sal &gt; #{sal} -->
+<![CDATA[
+where sal > #{sal}
+]]>
+</select>
+<!--******** subquery ********
+사원 테이블에서 가장 마지막에 입사한 이전 사원보다 먼저 입사한 사원부터 
+10명의 사원 정보를 검색하세요.
+컬럼 : 사원번호, 사원명, 연봉, 입사일
+
+-->
+<select id="subQuery"  resultType="eaDomain">
+SELECT ENAME, SAL, COMM, HIREDATE
+from
+(SELECT ENAME, SAL, COMM, HIREDATE,
+ row_number() over(order by hiredate desc) as rnum
+	FROM EMP)
+where rnum Between 2 and 11
+</select>
+<!--******** union ********
+테이블을 위 아래로 붙일 때 사용
+emp : 본사, cp_emp5 : 지사
+본사와 지사의 모든 사원을 검색
+-->
+<resultMap type="eaDomain" id="eaResult">
+<result column="EMPNO" property="empno"/>
+<result column="ename" property="ename"/>
+<result column="JOB" property="job"/>
+<result column="MGR" property="mgr"/>
+<result column="hiredate" property="hiredate"/>
+<result column="sal" property="sal"/>
+<result column="deptno" property="deptno"/>
+<result column="office_type" property="officeType"/>
+</resultMap>
+<select id="union"  resultMap="eaResult">
+select empno, ename, job, mgr, hiredate, sal, deptno, '본사' office_type
+from emp
+union all
+select empno, ename, job, mgr, hiredate, sal, deptno,  '지사' office_type
+from cp_emp5
+</select>
+<!--******** join ********
+여러 테이블을 옆으로 붙여서 조회.
+보유 중인 모든 차량의 제조사, 모델명, 연식, 가격, 배기량, 입력일 조회.
+-->
+<select id="join"  resultType="cmoDomain">
+SELECT cma.maker, cma.model, cmo.car_year, cmo.price,
+cmo.cc, cmo.car_img, cmo.input_date
+
+FROM CAR_MAKER cma, CAR_MODEL cmo
+
+where cmo.model=cma.model
+order by cmo.input_date desc
+</select>
+<!--******** subquery & join ********-->
+<!--******** $의 사용 ********-->
+<!--******** dynamic query : if ********-->
+<!--******** dynamic query : choose ********-->
+<!--******** dynamic query : forEach ********-->
+<!--******** dynamic query : set ********-->
+<!--******** PL/SQL insert, update, delete, cursor ********-->
+</mapper>
+
