@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="day1224">
+<!-- *******************컬럼 하나 한행 조회******************* 
+부서번호 입력(parameterType="int") 받아서 부서명(resultType="String")을 검색
+ ss.selectOne(부서명)
+-->
+<select id="scsr" parameterType="int" resultType="String">
+select dname 
+from dept 
+where deptno = #{deptno}
+</select>
+<!-- *******************컬럼 하나 여러행 조회******************* 
+부서번호 입력(parameterType="int") 받아서
+ 부서에 속한 모든 사원명(resultType="String")을 검색
+ List<stirng> list = ss.selectList("아이디",파라미터)
+-->
+<select id="scmr" parameterType="int" resultType="String">
+select ename 
+from emp 
+where deptno = #{deptno}
+</select>
+
+<!-- *******************컬럼 여러개 한행 조회******************* 
+: DTO 사용 ->typeAlias로 단축 가능
+사원번호를 입력 받아서 사원명, 직무 ,연봉, 입사일, 매니저번호, 부서번호 검색.
+  -->
+<select id="mcsr" parameterType="int" resultType="day1224.EmpDTO">
+select ename, job, sal, hiredate, mgr, deptno, to_char(hiredate,'yyyy-mm-dd') as strhiredate 
+from emp 
+where empno = #{empno}
+</select>
+  
+<!--  <resultMap> 사용-->
+
+<resultMap type="eDTO" id="eDtoResult">
+<result column="EMPNO" property="empno"/>
+<result column="ENAME" property="ename"/>
+<result column="JOB" property="job"/>
+<result column="SAL" property="sal"/>
+<result column="HIREDATE" property="hiredate"/>
+<result column="MGR" property="mgr"/>
+<result column="DEPTNO" property="deptno"/>
+<result column="STRHIREDATE" property="strHiredate"/>
+</resultMap>
+  
+<!-- *******************컬럼 여러개 여러행 조회*******************
+부서에 따른 사원 조회 -->
+<select id="mcmr" parameterType="Integer" resultMap="eDtoResult">
+select empno, ename, job, sal, hiredate, mgr, deptno, to_char(hiredate,'yyyy-mm-dd') as strhiredate 
+from emp 
+where deptno = #{deptno}
+</select>
+<!-- like -->
+<!-- < 작다 -->
+<!-- > 크다  -->
+<!-- subquery -->
+<!-- union -->
+<!-- join -->
+<!-- subquery & join -->
+<!-- $의 사용 -->
+<!-- dynamic query : if -->
+<!-- dynamic query : choose -->
+<!-- dynamic query : forEach -->
+<!-- dynamic query : set -->
+<!-- PL/SQL insert, update, delete, cursor -->
+</mapper>
+
