@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="day1219">
+  <select id="selectDept" resultType="day1219.DeptDTO">
+    select deptno,dname,loc from cp_dept
+  </select>
+  
+  <insert id="insertDept" parameterType="day1219.DeptDTO">
+  	insert into cp_dept(deptno,dname,loc)values(#{deptno},#{dname},#{loc})
+  </insert>
+</mapper>
