@@ -5,10 +5,34 @@
 <mapper namespace="kr.co.sist.board">
  
  <!--board 테이블에 추가 작업  -->
- <insert id="insertBoard" parameterType="kr.co.sist.board.BoardDTO">
+ <insert id="insertBoard" parameterType="boardDomain">
 insert into board(num, title, content, ip, id) values
 (seq_board.nextval,#{title},#{content},#{ip},#{id} )
  
  </insert>
+ 
+ 
+ <select id="selectBoardTotalCnt" parameterType="rangeDTO" resultType="int">
+  select count(*) cnt from board
+  <where><!--keyword가 null이거나 비어있지 않으면  -->
+	 <if test="keyword neq null and keyword neq ''">
+	  	instr(${fieldStr}, #{keyword}) != 0
+	</if>
+ </where>
+ </select>
+ 
+ <select id="selectRangeBoard" parameterType="rangeDTO" resultType="boardDomain">
+	select  rownum, num, title, input_date, ip, cnt, id
+	from ( select  rownum, num, title, input_date, ip, cnt, id ,
+	row_number() over(order by input_date desc) rnum
+	from board
+
+  <where>
+	 <if test="keyword neq null and keyword neq ''">
+	  	instr(${fieldStr}, #{keyword}) != 0
+	</if>
+ </where>
+  ) where rnum between #{startNum} and #{endNum}
+ </select>
 </mapper>
 

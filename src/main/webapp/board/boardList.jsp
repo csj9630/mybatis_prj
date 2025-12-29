@@ -1,8 +1,8 @@
 <%@page import="kr.co.sist.board.BoardService"%>
-<%@page import="kr.co.sist.board.BoardDTO"%>
+<%@page import="kr.co.sist.board.BoardDomain"%>
 <%@ page import="java.util.List"%>
 <%@ page import="kr.co.sist.board.BoardDAO"%>
-<%@ page import="kr.co.sist.board.BoardDTO"%>
+<%@ page import="kr.co.sist.board.BoardDomain"%>
 <%@ page import="kr.co.sist.board.RangeDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -138,69 +138,69 @@ function checkLogin() {
 				<%-- 	<%=rDTO %> --%>
 					<%
 					BoardDAO bDAO = BoardDAO.getInstance();
-					BoardService bs = BoardService.getInstance();
-					
+								BoardService bs = BoardService.getInstance();
+								
 
-					//******1. 총 게시물의 수
-					int totalCount = bs.totalCnt(rDTO);
+								//******1. 총 게시물의 수
+								int totalCount = bs.totalCnt(rDTO);
 
-					//******2. 한 화면에 보여줄 게시물의 수
-					int pageScale = bs.pageScale();
+								//******2. 한 화면에 보여줄 게시물의 수
+								int pageScale = bs.pageScale();
 
-					//******3.총 페이지의 수
-					int totalPage = bs.totalPage(totalCount, pageScale);
+								//******3.총 페이지의 수
+								int totalPage = bs.totalPage(totalCount, pageScale);
 
-					//******4. 시작번호
+								//******4. 시작번호
 
-					String tempPage = request.getParameter("currentPage");
+								String tempPage = request.getParameter("currentPage");
 
-					int currentPage = 1;
-					if (tempPage != null) {
-						try {
-							//사용자가 pagination을 클릭하여 정상적인 값이 립력됨
-							currentPage = Integer.parseInt(tempPage);
-						} catch (NumberFormatException nfe) {
-						} //end catch
-					} //end if
+								int currentPage = 1;
+								if (tempPage != null) {
+									try {
+										//사용자가 pagination을 클릭하여 정상적인 값이 립력됨
+										currentPage = Integer.parseInt(tempPage);
+									} catch (NumberFormatException nfe) {
+									} //end catch
+								} //end if
 
-					
-					//시작번호
-					int startNum = bs.startNum(currentPage, pageScale);
-					
-					
-					//******5. 끝 번호
-					int endNum = bs.endNum(startNum, pageScale);
+								
+								//시작번호
+								int startNum = bs.startNum(currentPage, pageScale);
+								
+								
+								//******5. 끝 번호
+								int endNum = bs.endNum(startNum, pageScale);
 
-					//******6. 시작 번호와 끝 번호 사이에 해당되는 게시글을 조회.
-					//rDTO 는 시작번호와 끝 번호를 web parameter로 받지 않고
-					//연산된 값(위 1항에서 5항까지 과정)으로 설정한다.
-					rDTO.setStartNum(startNum);
-					rDTO.setEndNum(endNum);
+								//******6. 시작 번호와 끝 번호 사이에 해당되는 게시글을 조회.
+								//rDTO 는 시작번호와 끝 번호를 web parameter로 받지 않고
+								//연산된 값(위 1항에서 5항까지 과정)으로 설정한다.
+								rDTO.setStartNum(startNum);
+								rDTO.setEndNum(endNum);
 
-					List<BoardDTO> boardList = bs.searchBoardList(rDTO);
+								List<BoardDomain> boardList = bs.searchBoardList(rDTO);
 
-					//@@@@ 글 제목이 20글자를 초과하면 19자까지만 보여주고 나머진 ... 으로 처리.
-					bs.titleSubStr(boardList);
+								//@@@@ 글 제목이 20글자를 초과하면 19자까지만 보여주고 나머진 ... 으로 처리.
+								bs.titleSubStr(boardList);
 
-					rDTO.setUrl("boardList.jsp");
-					rDTO.setTotalPage(totalPage);
-					
-					//7.pagination 페이지네이션 로드
-					String pagination = bs.pagination(rDTO);
-					String pagination2=bs.pagination2(rDTO,"center");
+								rDTO.setUrl("boardList.jsp");
+								rDTO.setTotalPage(totalPage);
+								
+								//7.pagination 페이지네이션 로드
+								String pagination = bs.pagination(rDTO);
+								String pagination2=bs.pagination2(rDTO,"center");
 
-					pageContext.setAttribute("totalCount", totalCount);
-					pageContext.setAttribute("pageScale", pageScale);
-					pageContext.setAttribute("totalPage", totalPage);
-					pageContext.setAttribute("currentPage", currentPage);
-					pageContext.setAttribute("startNum", startNum);
-					pageContext.setAttribute("endNum", endNum);
-					pageContext.setAttribute("pagination", pagination);
-					pageContext.setAttribute("pagination2", pagination2);
+								pageContext.setAttribute("totalCount", totalCount);
+								pageContext.setAttribute("pageScale", pageScale);
+								pageContext.setAttribute("totalPage", totalPage);
+								pageContext.setAttribute("currentPage", currentPage);
+								pageContext.setAttribute("startNum", startNum);
+								pageContext.setAttribute("endNum", endNum);
+								pageContext.setAttribute("pagination", pagination);
+								pageContext.setAttribute("pagination2", pagination2);
 
-					pageContext.setAttribute("boardList", boardList);
+								pageContext.setAttribute("boardList", boardList);
 
-					//int pn = totalCount - i +1 - 10*(totalPage-1);
+								//int pn = totalCount - i +1 - 10*(totalPage-1);
 					%>
 					<%-- 
 					총 게시글 수 : <c:out value="${totalCount}"/> <br>

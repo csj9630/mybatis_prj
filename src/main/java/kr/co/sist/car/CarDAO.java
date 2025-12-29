@@ -67,7 +67,35 @@ public class CarDAO {
 		return carList;
 	}//joinCarInfo
 	
+	//======================================================
 	
+	public List<String> selectMaker(String country ) throws  PersistenceException{
+		List<String> list=null;
+		SqlSession ss =MyBatisHandler.getInstance().getMyBatisHandler(true);//오토 커밋
+		list = ss.selectList("carMapper.selectMaker",country);
+		if (ss != null) { ss.close(); } // 안하면 큰일난다.
+		return list;
+	}//carMakerFromKorea
 	
+	public List<String> selectModel(String maker ) throws  PersistenceException{
+		List<String> list=null;
+		SqlSession ss =MyBatisHandler.getInstance().getMyBatisHandler(true);//오토 커밋
+		list = ss.selectList("carMapper.selectModel",maker);
+		if (ss != null) { ss.close(); } // 안하면 큰일난다.
+		return list;
+	}//carMakerFromKorea
+	
+	public List<CarModelDomain> selectCar(String model) throws PersistenceException{
+		List<CarModelDomain> carList = null;
+		
+		//1.myBatis Handler 얻기
+		SqlSession ss =MyBatisHandler.getInstance().getMyBatisHandler(true);//오토 커밋
+		
+		carList = ss.selectList("carMapper.selectCar",model);
+		
+		//4.myBatis Handler 닫기
+		if (ss != null) { ss.close(); } // 안하면 큰일난다.
+		return carList;
+	}//joinCarInfo
 	
 }//class

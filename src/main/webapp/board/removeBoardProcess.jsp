@@ -6,7 +6,7 @@
  <%
 request.setCharacterEncoding("UTF-8");
 %>
-<jsp:useBean id="bDTO" class="kr.co.sist.board.BoardDTO" scope="page"/>
+<jsp:useBean id="bDTO" class="kr.co.sist.board.BoardDomain" scope="page"/>
 <jsp:setProperty name="bDTO" property="*"/>
 
 <%

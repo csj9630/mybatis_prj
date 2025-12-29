@@ -1,10 +1,5 @@
 package kr.co.sist.board;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +7,7 @@ import java.util.List;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
 
-import day1128.ParamDTO;
 import kr.co.sist.dao.MyBatisHandler;
-import kr.co.sist.emp.EmpDTO;
-import kr.co.sist.emp.EmployeeDAO;
 
 public class BoardDAO {
 	// ------싱글톤 패턴----------
@@ -41,143 +33,52 @@ public class BoardDAO {
 	 */
 	public int selectBoardTotalCnt(RangeDTO rDTO) throws SQLException {
 		int totalCnt = 0;
-
-
-//		Connection con = null;
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
-//
-//		try {
-//			// 1.JNDI 사용객체 생성
-//			// 2.DataSource 얻기
-//			// 3.DataSource에서 Connection 얻기
-//			con = dbCon.getConn();
-//
-//			// 4.쿼리문 생성객체 얻기
-//			//**********dynamic Query
-//			//검색 키워드가 없다면 모든 글의 총 개수 검색
-//			StringBuilder selectTotal = new StringBuilder();
-//			selectTotal.append(" select count(*) cnt from board ");
-//			//검색 키워드가 있다면 검색 키워드에 해당하는 글의 개수 검샘
-//			if(rDTO.getKeyword() != null && !rDTO.getKeyword().isEmpty()) {
-//				selectTotal
-//				.append(" where instr( " )
-//				.append(rDTO.getFieldStr())
-//				.append(" ,?) != 0 " );
-//			}//end if
-//			
-//			pstmt = con.prepareStatement(selectTotal.toString());
-//
-//			//5.바인드 변수값 설정
-//			if( rDTO.getKeyword() != null && !rDTO.getKeyword().isEmpty()){
-//				pstmt.setString(1, rDTO.getKeyword());
-//			}//end if
-//
-//			
-//			
-//			// 6.쿼리문 수행 후 결과 얻기
-//			rs = pstmt.executeQuery();
-//
-//			if (rs.next()) {
-//				totalCnt = rs.getInt("cnt");
-//			} // 둥 if
-//		} finally {
-//			// 7.연결 끊기
-//			dbCon.dbClose(rs, pstmt, con);
-//		} // end finally
-
+		// 1.myBatis Handler 얻기
+		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+		totalCnt = ss.selectOne("kr.co.sist.board.selectBoardTotalCnt",rDTO);
+		
+		if (ss != null) { ss.close(); } // 안하면 큰일난다.
 		return totalCnt;
 	}// selectId
 
 	/**
 	 * 게시판목록 데이터 로드
+	 * 
 	 * @param rDTO
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<BoardDTO> selectRangeBoard(RangeDTO rDTO) throws SQLException {
-		List<BoardDTO> list = new ArrayList<BoardDTO>();
+	public List<BoardDomain> selectRangeBoard(RangeDTO rDTO) throws SQLException {
+		List<BoardDomain> list = null;
+		
+		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+		list = ss.selectList("kr.co.sist.board.selectRangeBoard",rDTO);
+		
+		if (ss != null) { ss.close(); } // 안하면 큰일난다.
+		
 
-//		Connection con = null;
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
-//		try {
-//
-////			1. JNDI 사용객체 생성
-////			2 DataSource 얻기
-////			3. connection 얻기
-//			con = dbCon.getConn();
-////			4. 쿼리문 생성 객체 얻기
-//			StringBuilder selectBoard = new StringBuilder();
-//			selectBoard
-//			.append(" select  rownum, NUM, TITLE, INPUT_DATE, IP, CNT, ID  ")
-//			.append(" from   ")
-//			.append(" ( select  rownum, NUM, TITLE, INPUT_DATE, IP, CNT, ID ,  ")
-//			.append(" row_number() over(order by input_date desc) rnum  ")
-//			.append(" from BOARD  ");
-//			
-//			
-//			//dynamic Query : 검색 키워드가 있다면 해당하는 글의 개수 검색
-//			if(rDTO.getKeyword() != null && !rDTO.getKeyword().isEmpty()) {
-//				selectBoard
-//				.append(" where instr( " )
-//				.append(rDTO.getFieldStr())
-//				.append(" ,?) != 0 " );
-//			}//end if
-//			selectBoard.append(" ) where rnum between ? and ?  " );
-//			pstmt = con.prepareStatement(selectBoard.toString());
-//			
-//			//System.out.println(selectBoard);
-////			5. 바인드변수값 설정
-//			int pstmtIdx =0;
-//
-//			//바인드 변수가 조건따라 잘 들어가게 넣기
-//			if( rDTO.getKeyword() != null && !rDTO.getKeyword().isEmpty()){
-//				pstmt.setString(++pstmtIdx, rDTO.getKeyword());
-//			}//end if
-//			pstmt.setInt(++pstmtIdx, rDTO.getStartNum());
-//			pstmt.setInt(++pstmtIdx, rDTO.getEndNum());
-//
-//
-////			6. 조회 결과 얻기
-//			BoardDTO bDTO = null;
-//
-//			rs = pstmt.executeQuery();
-//			while (rs.next()) {
-//				bDTO = new BoardDTO();
-//				bDTO.setNum(rs.getInt("num"));
-//				bDTO.setTitle(rs.getString("title"));
-//				bDTO.setInput_date(rs.getDate("input_date"));
-//				bDTO.setCnt(rs.getInt("cnt"));
-//				bDTO.setId(rs.getString("id"));
-//
-//				list.add(bDTO);
-//			} // end while
-//
-//		} finally {
-////			7. 연결 끊기
-//			dbCon.dbClose(rs, pstmt, con);
-//		}
 		return list;
 	}// selectRangeBoard
 
-	public void insertBoard(BoardDTO bDTO) throws PersistenceException {
+	public void insertBoard(BoardDomain bDTO) throws PersistenceException {
 		// 1.MyBatis Hanlder 얻기
 		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(true);
 
 		// insert 한건만 있으면 그냥 ss를 true로 오토커밋하자.
 
 		// 2.method 호출
-		ss.insert("kr.co.sist.board.insertBoard",bDTO);
+		ss.insert("kr.co.sist.board.insertBoard", bDTO);
 		// 3.결과를 받기
 
 		// commit하기
 		// if(cnt ==1) {ss.commit();}//end if
 
 		// 4.MyBatis Hanlder 닫기
-		if (ss != null) {ss.close();} // 안하면 큰일난다.
+		if (ss != null) {
+			ss.close();
+		} // 안하면 큰일난다.
 
-		//====================================================================================
+		// ====================================================================================
 		/*
 		 * DbConn dbCon = DbConn.getInstance("jdbc/dbcp"); Connection con = null;
 		 * PreparedStatement pstmt = null;
@@ -202,16 +103,16 @@ public class BoardDAO {
 		 */
 	}// insertBoard
 
-
 	/**
 	 * 게시판 상세 조회
+	 * 
 	 * @param num
 	 * @return
 	 * @throws SQLException
 	 */
-	public BoardDTO selectBoardDetail(int num) throws SQLException{
-			BoardDTO bDTO = null;
-			
+	public BoardDomain selectBoardDetail(int num) throws SQLException {
+		BoardDomain bDTO = null;
+
 //			DbConn dbCon = DbConn.getInstance("jdbc/dbcp");
 //			Connection con = null;
 //			PreparedStatement pstmt = null;
@@ -268,16 +169,17 @@ public class BoardDAO {
 ////			7. 연결 끊기
 //				dbCon.dbClose(rs, pstmt, con);
 //			}
-			return bDTO;
-		}// selectRangeBoard
-	
+		return bDTO;
+	}// selectRangeBoard
+
 	/**
 	 * 게시글 읽기했을때 카운트 증가
+	 * 
 	 * @param num
 	 * @throws SQLException
 	 */
-	public void updateBoardCnt(int num) throws SQLException{
-		
+	public void updateBoardCnt(int num) throws SQLException {
+
 //		DbConn dbCon = DbConn.getInstance("jdbc/dbcp");
 //		Connection con = null;
 //		PreparedStatement pstmt = null;
@@ -306,11 +208,9 @@ public class BoardDAO {
 //			dbCon.dbClose(null, pstmt, con);
 //		}
 	}// updateBoardCnt
-	
-	
-	
-	public int updateBoard(BoardDTO bDTO) throws SQLException {
-		int cnt=0;
+
+	public int updateBoard(BoardDomain bDTO) throws SQLException {
+		int cnt = 0;
 
 //		Connection con = null;
 //		PreparedStatement pstmt = null;
@@ -347,18 +247,18 @@ public class BoardDAO {
 //
 //		} // end finally
 //		
-	return cnt;
+		return cnt;
 	}// insertBoard
-	
-	
+
 	/**
 	 * 게시글 삭제
+	 * 
 	 * @param bDTO
 	 * @return
 	 * @throws SQLException
 	 */
-	public int deleteBoard(BoardDTO bDTO) throws SQLException {
-		int cnt=0;
+	public int deleteBoard(BoardDomain bDTO) throws SQLException {
+		int cnt = 0;
 //		DbConn dbCon = DbConn.getInstance("jdbc/dbcp");
 //		
 //		Connection con = null;
@@ -394,7 +294,5 @@ public class BoardDAO {
 //		System.out.println("dao결과 : "+cnt);
 		return cnt;
 	}// insertBoard
-
-
 
 }// class

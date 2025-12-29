@@ -56,7 +56,6 @@ $(function(){
 	
 	//2번 셀렉트박스(제조사) 변경 시
 	$('#maker').on('change',function(){
-		
 		makerToModel(this.value);
 	})
 		
@@ -65,6 +64,7 @@ $(function(){
 
 //국적에서 제조사 뽑아서 셀렉트박스에 넣기
 function countryToMaker(country) {
+	maker.length = 1; //selectBox 남겨둘 옵션의 개수 1개만 두고 초기화
 	if(country =="null" || !country){
 		alert("옳지 않은 국적입니다.");
 		return;
@@ -96,6 +96,7 @@ function countryToMaker(country) {
 
 //제조사에서 모델 종류 뽑아서 셀렉트박스에 넣기
 function makerToModel(maker) {
+	model.length = 1; //selectBox 남겨둘 옵션의 개수 1개만 두고 초기화
 	if(maker =="null" || !maker){
 		alert("옳지 않은 제조사입니다.");
 		return;

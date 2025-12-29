@@ -33,5 +33,29 @@ and cmo.model=#{model}
 order by cmo.input_date desc
 </select>
 
+
+<!--수업에서 만든 코드  -->
+
+<!-- 국가에 대한 제조사 조회 -->
+<select id="selectMaker" parameterType="String" resultType="String">
+select  Maker
+from car_country
+where country=#{ country }
+</select>
+
+<!-- 제조사에 대한 모델명 조회 -->
+<select id="selectModel" parameterType="String" resultType="String">
+select model
+from car_maker
+where maker=#{ maker }
+</select>
+
+<!-- 모델명에 대한 모든 차량의 이미지 년식 가격 옵션 배기량 입력일 조회  -->
+<select id="selectCar" parameterType="String" resultType="carDomain">
+select car_year, price, cc, car_img, input_date
+from car_model
+where model=#{ car_model }
+</select>
+
 </mapper>
 

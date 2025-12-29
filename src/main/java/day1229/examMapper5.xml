@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="day1229">
+<sql id="empCommon">
+select ename, sal, comm, hiredate
+from emp
+</sql>
+
+<!--******** subquery & join ********
+제조국이 국산인 모든 차량의
+제조국, 제조사, 모델명, 년식, 가격, 이미지, 입력일 검색.
+가장 마지막에 입력된 차량부터 10건만 조회
+-->
+<select id="subNjoin" resultType="cmoDomain">
+
+select country, maker, car_year, price, cc, car_img, input_date
+from (select
+	 cc.country, cc.maker
+ 	,cm.model
+ 	,cmo.car_year, cmo.price, cmo.cc, cmo.car_img, cmo.input_date
+ 	,row_number() over(order by cmo.input_date desc) rnum
+from     car_country cc, car_maker cm, car_model cmo
+where (cm.maker=cc.maker and cmo.model=cm.model)
+	and (cc.country='국산'))
+where rnum between 1 and 10
+</select>
+
+
+<!--******** $의 사용 ********
+테이블 명을 입력받아서 검색
+테이블엔 바인드변수가 안 먹히니 ${테이블명}을 쓰면 입력값이 바로 코드에 들어간다.
+-->
+<select id="dollar" parameterType="String" resultType="eaDomain">
+select empno, ename, job, sal, hiredate, deptno
+from ${tableName}
+</select>
+<!--******** dynamic query : if ********
+부서 번호가 0이 아니면 해당 부서 조회
+아니면 모든 사원정보 조회
+-->
+<select id="if" parameterType="Int" resultType="eaDomain">
+select empno, ename, job, sal, hiredate, deptno
+from emp
+	<where>
+		<if test="deptno neq 0">
+		deptno =#{deptno}
+		</if>
+	</where>
+</select>
+
+<!--******** dynamic query : choose ********-->
+<!--******** dynamic query : forEach ********-->
+<!--******** dynamic query : set ********-->
+<!--******** PL/SQL insert, update, delete, cursor ********-->
+</mapper>
+

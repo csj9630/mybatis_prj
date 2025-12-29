@@ -37,7 +37,7 @@ $(function(){
 		
 		//1.옵션을 생성할 select 얻기
 		var sel = $("#sel")[0];//jquery object는 배열로 얻는다.
-		sel.length = 1; //남겨둘 옵션의 개수 1 -> 다 없앰
+		sel.length = 1; //selectBox 남겨둘 옵션의 개수 1개만 두고 초기화
 		//2.선택한 select에서 옵션을 생성
 		var jsonArr =[
 			{name:"민병조",age:25},
