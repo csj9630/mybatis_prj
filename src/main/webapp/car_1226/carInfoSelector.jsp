@@ -141,7 +141,6 @@ function modelToInfo(model) {
 		},//error
 		
 		success:function(jsonArr){
-\
 			infoToTableDetail(jsonArr);
 		}//success
 	})//ajax
