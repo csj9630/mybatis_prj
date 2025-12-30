@@ -34,5 +34,33 @@ insert into board(num, title, content, ip, id) values
  </where>
   ) where rnum between #{startNum} and #{endNum}
  </select>
+ <!-- 글 번호를 받아서 해당하는 글 하나를 검색  -->
+ <select id="selectBoardDetail" parameterType="int" resultType="boardDomain" >
+	select  title, content , input_date, ip, cnt, id
+	from board 
+	where num = #{num}
+ </select>
+ <!-- 조회수 업데이트  -->
+<update id="updateBoardCnt" parameterType="int">
+	update board
+	set cnt=cnt+1 
+	where num = ${num}
+</update>
+<!-- 게시글 수정 : 글번호와 아이디을 입력 받아서 해당 글 내용과 ip 변경-->
+<update id="updateBoard" parameterType="boardDTO">
+	update board
+	set content=#{content}, ip=#{ip}
+	where num=#{num} and id=#{id}
+</update>
+<update id="deleteBoard" parameterType="boardDTO">
+
+delete from board 
+where num=#{num} and id=#{id}
+
+</update>
+
+
+
+
 </mapper>
 

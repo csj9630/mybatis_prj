@@ -6,7 +6,7 @@
  <%
 request.setCharacterEncoding("UTF-8");
 %>
-<jsp:useBean id="bDTO" class="kr.co.sist.board.BoardDomain" scope="page"/>
+<jsp:useBean id="bDTO" class="kr.co.sist.board.BoardDTO" scope="page"/>
 <jsp:setProperty name="bDTO" property="*"/>
 
 <%
@@ -14,7 +14,7 @@ request.setCharacterEncoding("UTF-8");
 	//그외, ip-requset내장객체, id는 Session에서 얻어야 한다.
 	
 	bDTO.setIp(request.getRemoteAddr());
-	bDTO.setId((String)session.getAttribute("userId"));
+	//bDTO.setId((String)session.getAttribute("userId"));
 	
 	//글 수정 객체 생성 후 세트.
 	BoardService bs = BoardService.getInstance();

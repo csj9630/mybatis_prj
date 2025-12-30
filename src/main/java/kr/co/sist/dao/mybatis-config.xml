@@ -13,8 +13,10 @@
 <typeAlias type="day1226.CarModelDomain" alias="cmoDomain"/><!-- 제조사, 모델, 년식, 가격,옵션, 배기량, 이미지 ,입력일 저장용 domain-->
 <typeAlias type="kr.co.sist.car.CarModelDomain" alias="carDomain"/><!-- 위 것을 동적 셀렉트용으로 사용-->
 <!-- 게시판에서 사용할 DTO, Domain  -->
-<typeAlias type="kr.co.sist.board.BoardDomain" alias="boardDomain"/>
-<typeAlias type="kr.co.sist.board.RangeDTO" alias="rangeDTO"/>
+<typeAlias type="kr.co.sist.board.BoardDomain" alias="boardDomain"/><!--검색에 사용할 domain  -->
+<typeAlias type="kr.co.sist.board.BoardDTO" alias="boardDTO"/><!--추가변경삭제(insert update delete) 쓸 DTO-->
+<typeAlias type="kr.co.sist.board.RangeDTO" alias="rangeDTO"/><!--검색에 사용할 DTO  -->
+<typeAlias type="day1230.TransactionDTO" alias="transactionDTO"/><!--transaction 실습용 DTO  -->
 
 </typeAliases>
   <environments default="development">
@@ -35,7 +37,8 @@
     <mapper resource="day1224/examMapper3.xml"/><!--select 및 각종 sql문 연습1  -->
     <mapper resource="day1226/examMapper4.xml"/><!--select 및 각종 sql문 연습2  -->
     <mapper resource="day1229/examMapper5.xml"/><!--select 및 각종 sql문 연습3  -->
+    <mapper resource="day1230/examMapper6.xml"/><!--select 및 각종 sql문 연습4  -->
     <mapper resource="kr/co/sist/car/carMapper.xml"/><!--자동차 모델 select박스 동적으로 넣기  -->
-    <mapper resource="kr/co/sist/board/boardMapper.xml"/>
+    <mapper resource="kr/co/sist/board/boardMapper.xml"/><!-- 게시판웹 myBatis 버전  -->
   </mappers>
 </configuration>

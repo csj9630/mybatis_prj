@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="day1230">
+
+<!--******** dynamic query : choose ********
+사원 테이블에서 입력값에 대한 
+사원번호 사원명 직무 연봉 입사일 부서번호 검색
+입력값 1 -> 10번 부서 사원검색
+입력값 2 -> 20번 부서 사원검색
+그 외엔 30번 부서 사원 검색
+-->
+<select id="dynamicChoose" parameterType="int" resultType="eaDomain" >
+select empno, ename, job, sal, hiredate, deptno
+from emp
+where
+<choose>
+	<when test="deptno eq 1">
+		deptno=10
+		</when>
+
+	<when test="deptno eq 2">
+		deptno=20</when>
+
+	<otherwise>
+		deptno=30
+	</otherwise>
+	
+
+</choose>
+</select>
+
+
+<select id="selectAllEmpno" resultType="int" >
+select empno
+from emp
+</select>
+
+<!--******** dynamic query : forEach ********
+배열로 입력되는 모든 사원번호에 해당하는 사원들을 검색
+-->
+<select id="dynamicForeach" parameterType="hashMap" resultType="eaDomain" >
+select empno, ename, job, sal, hiredate, deptno
+from emp
+where empno in
+	<foreach collection="empnoArr" open="(" item="empno" separator="," close=")">
+	#{empno}
+	</foreach>
+</select>
+
+<!--******** dynamic query : set ********
+update할 값을 조건 따라 동적으로 바꿀 수 있음.
+-->
+<update id="dynamicSet" parameterType="eDTO">
+update emp
+<set>
+	<if test="ename neq '' and ename neq null">
+	<!--ename이 공백이 아니면 업데이트 세팅  -->
+	ename=#{ename},
+	</if>
+	<if test="job neq '' and job neq null">
+	<!--job이 공백이 아니면 업데이트 세팅  -->
+	job=#{job},
+	</if>
+	<if test="sal neq 0">
+	<!--sal이 공백이 아니면 업데이트 세팅  -->
+	sal=#{sal},
+	</if>
+	<if test="mgr neq 0">
+	<!--mgr이 공백이 아니면 업데이트 세팅  -->
+	mgr=#{mgr},
+	</if>
+	<if test="deptno neq 0">
+	<!--deptno이 공백이 아니면 업데이트 세팅  -->
+	deptno=#{deptno},
+	</if>
+	
+	<if test="strHiredate neq '' and strHiredate neq null">
+	<!--strHiredate이 공백이 아니면 업데이트 세팅
+		문자열을 날짜로 변경하여 저장.  -->
+	hiredate=to_date(#{strHiredate},'yyyy-mm-dd'),
+	</if>
+</set>
+where empno=#{empno}
+</update>
+
+<!--******** transaction ********-->
+<insert id="tran1" parameterType="transactionDTO">
+insert into test_transaction (name, address) values (#{name},#{address}) 
+</insert>
+
+<insert id="tran2" parameterType="transactionDTO">
+insert into test_transaction2 (name, address) values (#{name},#{address}) 
+</insert>
+
+<update id="upTran1" parameterType="transactionDTO">
+update test_transaction 
+set address=#{address}
+where name=#{name} 
+</update>
+<update id="upTran2" parameterType="transactionDTO">
+update test_transaction2 
+set address=#{address}
+where name=#{name} 
+</update>
+
+
+<!--******** PL/SQL insert, update, delete, cursor ********-->
+
+
+</mapper>
+

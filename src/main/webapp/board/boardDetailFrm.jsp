@@ -136,12 +136,13 @@ $(function () {
 
 <script type="text/javascript">
 
-<!--로그인 체크(text/javascript, alert 됨)  -->
+<%--
+ <!--로그인 체크(text/javascript, alert 됨)  -->
 if( ${ sessionScope.userId == null } ){
 	alert("로그인한 사용자만 글을 쓸 수 있습니다.");
 	location.href="${ commonURL }/login/loginFrm.jsp";
 }//end if
-
+ --%>
 $(function(){
 	$("#btnModify").click(function(){
 		//수정 확인
@@ -215,13 +216,14 @@ $(function(){
 							</tr>
 
 							<tr>
-								<td colspan="2" style="text-align: center;"><c:if
-										test="${ sessionScope.userId eq bDTO.id}">
-											<input type="hidden" name="num" value="${param.num}"/>
-											<button onclick="return false" class="btn btn-success" id="btnModify">글수정</button>
-											<button onclick="return false" class="btn btn-success" id="btnDelete">글삭제</button>
-									</c:if> <a href="boardList.jsp?currentPage=${param.currentPage }"
-									class="btn btn-info">리스트</a></td>
+								<td colspan="2" style="text-align: center;">
+									<input type="hidden" name="num" value="${param.num}"/>
+									<input type="hidden" name="id" value="${bDTO.id}"/><!-- 아이디는 임의로 작성자의 아이디로 저장.  -->
+									
+									<button onclick="return false" class="btn btn-success" id="btnModify">글수정</button>
+									<button onclick="return false" class="btn btn-success" id="btnDelete">글삭제</button>
+									<a href="boardList.jsp?currentPage=${param.currentPage }" class="btn btn-info">리스트</a>
+								</td>
 							</tr>
 
 						</table>

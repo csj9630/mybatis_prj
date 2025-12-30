@@ -17,7 +17,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 
-<title>게시판 리스트</title>
+<title>myBatis판 게시판리스트</title>
 
 
 
@@ -41,6 +41,10 @@
 	rel="stylesheet">
 <jsp:include page="../fragments/bootstrap_css.jsp"></jsp:include>
 <style type="text/css">
+main * {
+	color:#000;
+}
+
 #wrap {
 	margin: 0px auto;
 	width: 1200px;
@@ -60,7 +64,7 @@
 }
 
 a {
-	color: #FFF;
+	color: #000;
 	text-decoration: none
 }
 
@@ -68,6 +72,8 @@ a:hover {
 	color: #292929;
 	text-decoration: none
 }
+
+
 /* 게시판 페이지네이션 디자인 */
 .prevMark, .nextMark { color:#ff0000;}
 .currentPage{ font-size: 20px; font-weight: bold };
