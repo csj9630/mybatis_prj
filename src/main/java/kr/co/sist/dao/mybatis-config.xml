@@ -17,6 +17,7 @@
 <typeAlias type="kr.co.sist.board.BoardDTO" alias="boardDTO"/><!--추가변경삭제(insert update delete) 쓸 DTO-->
 <typeAlias type="kr.co.sist.board.RangeDTO" alias="rangeDTO"/><!--검색에 사용할 DTO  -->
 <typeAlias type="day1230.TransactionDTO" alias="transactionDTO"/><!--transaction 실습용 DTO  -->
+<typeAlias type="day1231.MemberDTO" alias="memberDTO"/><!--procedure 실습용 DTO  -->
 
 </typeAliases>
   <environments default="development">
@@ -38,6 +39,7 @@
     <mapper resource="day1226/examMapper4.xml"/><!--select 및 각종 sql문 연습2  -->
     <mapper resource="day1229/examMapper5.xml"/><!--select 및 각종 sql문 연습3  -->
     <mapper resource="day1230/examMapper6.xml"/><!--select 및 각종 sql문 연습4  -->
+    <mapper resource="day1231/examMapper7.xml"/><!--procedure 실습  -->
     <mapper resource="kr/co/sist/car/carMapper.xml"/><!--자동차 모델 select박스 동적으로 넣기  -->
     <mapper resource="kr/co/sist/board/boardMapper.xml"/><!-- 게시판웹 myBatis 버전  -->
   </mappers>

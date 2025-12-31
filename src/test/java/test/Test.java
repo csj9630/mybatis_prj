@@ -1,16 +1,12 @@
 package test;
 
-import static org.junit.Assert.assertNotNull;
-
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.DisplayName;
 
-import day1224.EmpDTO;
-import day1230.SelectDAO4;
-import day1230.TransactionDTO;
-import kr.co.sist.board.RangeDTO;
+import day1231.SelectDAO5;
 
 public class Test {
 
@@ -40,7 +36,9 @@ public class Test {
 //		CarService cs =CarService.getInstance();
 //		SelectDAO3 sd3 = SelectDAO3.getInstance();
 //		BoardDAO bd = BoardDAO.getInstance();
-		SelectDAO4 sd= SelectDAO4.getInstance();
+//		SelectDAO4 sd= SelectDAO4.getInstance();
+		
+		SelectDAO5 sd = SelectDAO5.getInstance();
 		try {
 		//assertNotNull(sDAO.useLike("대치동"));
 		//assertNotNull(sDAO.greaterThan(3000));
@@ -57,15 +55,15 @@ public class Test {
 //			assertNotNull(cdao.selectModel("현대"));
 //			assertNotNull(cdao.selectCar("K5"));
 //			assertNotNull(cs.searchCar("K5"));
-//			assertNotNull(sd3.subqueryNjoin());
-//			assertNotNull(sd3.dollar("cp_emp5"));
-//			assertNotNull(sd3.dynamicIf(0));
-			RangeDTO rdto = new RangeDTO();
-			rdto.setField("1");
-			rdto.setKeyword("오늘은");
-			rdto.setStartNum(1);
-			rdto.setEndNum(10);
-			
+////			assertNotNull(sd3.subqueryNjoin());
+////			assertNotNull(sd3.dollar("cp_emp5"));
+////			assertNotNull(sd3.dynamicIf(0));
+//			RangeDTO rdto = new RangeDTO();
+//			rdto.setField("1");
+//			rdto.setKeyword("오늘은");
+//			rdto.setStartNum(1);
+//			rdto.setEndNum(10);
+//			
 //			assertNotNull(bd.selectBoardTotalCnt(new RangeDTO()));
 ////			assertNotNull(sd.dynamicChoose(555));
 //			int[] empno = {7521,7566,7564,7698};
@@ -78,18 +76,38 @@ public class Test {
 //			e.setEmpno(7521);
 //			e.setEname("ward");
 //			e.setSal(1300);
-//			//e.setJob("영업");
-//			assertNotNull(sd.dynamicSet(e));
+////			//e.setJob("영업");
+////			assertNotNull(sd.dynamicSet(e));
+//
+//			TransactionDTO tDTO = new TransactionDTO();
+//			tDTO.setName("민병");
+//			tDTO.setAddress("박치기하러가요");
+//			
+////			assertNotNull(sd.transaction(tDTO));
+////			assertNotNull(sd.transaction(tDTO));
+//			assertNotNull(sd.transaction2(tDTO));
 
-			TransactionDTO tDTO = new TransactionDTO();
-			tDTO.setName("민병");
-			tDTO.setAddress("박치기하러가요");
-			
-//			assertNotNull(sd.transaction(tDTO));
-//			assertNotNull(sd.transaction(tDTO));
-			assertNotNull(sd.transaction2(tDTO));
+//			MemberDTO mDTO = new MemberDTO();
+//			mDTO.setNum(62);
+////			mDTO.setName("렌고쿠");
+//			mDTO.setAge(35);
+////			mDTO.setGender("남자");
+//			mDTO.setTel("010-6974-6974");
+////			sd.updateMember(mDTO);
+//			sd.deleteMember(mDTO);
+//			int cnt = mDTO.getCnt();
+//			assertSame(cnt,1);
 
 			
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			
+//			sd.selectOneMember(map);
+			sd.selectAllMember(map);
+
+			//타입 맞추기 위한 강제 형변환(casting)
+			List<Map<String,Object>> data = (List<Map<String,Object>>) map.get("searchAllMember");
+			System.out.println(data);
+			//System.out.println("*************"+data.get(0).get("NAME")+"*************");
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
