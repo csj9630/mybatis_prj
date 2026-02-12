@@ -9,7 +9,7 @@ body{
 	color:#000;
 }
 </style>
-<h2>컬럼 여러 개에 여러 행 조회</h2>
+<h2>컬럼 여러 개에 여러  행 조회</h2>
 
 <script type="text/javascript">
 	$(function() {
